@@ -122,6 +122,11 @@
   , "default": true
   , "description": "Show the weather condition (e.g., \"Windy\", \"Clear\") in the panel"
   }
+, "showSunriseInPanel":
+  { "type": "checkbox"
+  , "default": false
+  , "description": "Show sunset & sunrise in the panel"
+  }
 , "locationLabelOverride":
   { "type": "entry"
   , "default": ""

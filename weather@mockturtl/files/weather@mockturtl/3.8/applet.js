@@ -76,6 +76,7 @@ const WEATHER_API_KEY = "apiKey"
 const WEATHER_CITY_KEY = 'locationLabelOverride'
 const WEATHER_REFRESH_INTERVAL = 'refreshInterval'
 const WEATHER_SHOW_COMMENT_IN_PANEL_KEY = 'showCommentInPanel'
+const WEATHER_SHOW_SUNRISE_IN_PANEL_KEY = 'showSunriseInPanel'
 const WEATHER_VERTICAL_ORIENTATION_KEY = 'verticalOrientation'
 const WEATHER_SHOW_SUNRISE_KEY = 'showSunrise'
 const WEATHER_SHOW_24HOURS_KEY = 'show24Hours'
@@ -101,6 +102,7 @@ const KEYS = [,
   WEATHER_VERTICAL_ORIENTATION_KEY,
   WEATHER_SHOW_TEXT_IN_PANEL_KEY,
   WEATHER_SHOW_COMMENT_IN_PANEL_KEY,
+  WEATHER_SHOW_SUNRISE_IN_PANEL_KEY,
   WEATHER_SHOW_SUNRISE_KEY,
   WEATHER_SHOW_24HOURS_KEY,
   WEATHER_FORECAST_DAYS,
@@ -734,6 +736,9 @@ MyApplet.prototype = {
           label += " ";
         }
         label += (temp + ' ' + this.unitToUnicode());
+        if (this._showSunriseInPanel) {
+          label += (" · " + sunriseTime + "↑ " + sunsetTime + "↓");
+        }
       }
       this.set_applet_label(label);
 
