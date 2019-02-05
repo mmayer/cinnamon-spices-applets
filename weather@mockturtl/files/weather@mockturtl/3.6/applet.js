@@ -576,6 +576,8 @@ MyApplet.prototype = {
 
     // Sunset/Sunrise
     // gettext can't see these inline
+    let sunriseTime = "";
+    let sunsetTime = "";
     let sunriseText = "";
     let sunsetText = "";
     if (weather.sunrise != null && weather.sunset != null) {
@@ -586,8 +588,10 @@ MyApplet.prototype = {
           sunriseText = _(sunriseText);
           sunsetText = _(sunsetText);
         }
-        sunriseText = (sunriseText + ': ' + this.timeToUserUnits(weather.sunrise.toLocaleFormat('%H:%M')));
-        sunsetText = (sunsetText + ': ' + this.timeToUserUnits(weather.sunset.toLocaleFormat('%H:%M')));
+        sunriseTime = this.timeToUserUnits(weather.sunrise.toLocaleFormat('%H:%M'));
+        sunsetTime = this.timeToUserUnits(weather.sunset.toLocaleFormat('%H:%M'));
+        sunriseText += (': ' + sunriseTime);
+        sunsetText += (': ' + sunsetTime);
       }
     }
 

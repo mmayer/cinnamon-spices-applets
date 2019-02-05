@@ -701,6 +701,8 @@ MyApplet.prototype = {
 
       // Sunset/Sunrise
       // gettext can't see these inline
+      let sunriseTime = "";
+      let sunsetTime = "";
       let sunriseText = "";
       let sunsetText = "";
       if (this.weather.sunrise != null && this.weather.sunset != null) {
@@ -710,13 +712,15 @@ MyApplet.prototype = {
           if (this.weather.timeZone != null) {     //have TZ, en-GB returns time in the correct format
               let sunrise = this.weather.sunrise.toLocaleString("en-GB", {timeZone: this.weather.timeZone, hour: "2-digit", minute: "2-digit"});
               let sunset = this.weather.sunrise.toLocaleString("en-GB", {timeZone: this.weather.timeZone, hour: "2-digit", minute: "2-digit"});
-              sunriseText = (sunriseText + ': ' + this.timeToUserUnits(sunrise));
-              sunsetText = (sunsetText + ': ' + this.timeToUserUnits(sunset));
+              sunriseTime = this.timeToUserUnits(sunrise);
+              sunsetTime = this.timeToUserUnits(sunset);
           }
           else {   // else We assume that System TZ and Location TZ is same, covers 95% of users
-            sunriseText = (sunriseText + ': ' + this.timeToUserUnits(this.weather.sunrise.toLocaleFormat('%H:%M')));
-            sunsetText = (sunsetText + ': ' + this.timeToUserUnits(this.weather.sunset.toLocaleFormat('%H:%M')));
+            sunriseTime = this.timeToUserUnits(this.weather.sunrise.toLocaleFormat('%H:%M'));
+            sunsetTime = this.timeToUserUnits(this.weather.sunset.toLocaleFormat('%H:%M'));
           }
+          sunriseText += (': ' + sunriseTime);
+          sunsetText += (': ' + sunsetTime);
         }
       }
 
