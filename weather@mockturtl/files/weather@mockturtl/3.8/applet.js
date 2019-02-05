@@ -169,7 +169,7 @@ Log.prototype = {
     }
     else {
       global.log(msg);
-    }   
+    }
   },
 
   Error: function(error) {
@@ -246,7 +246,7 @@ function MyApplet(metadata, orientation, panelHeight, instanceId) {
     // Translation layer is necessary with multiple API choices
     // Init with null, something we can properly check for
 
-    // 
+    //
     //  If you get the values in these objects correctly with correct units
     //  from a new API, Everything will work as intended.
     //
@@ -285,14 +285,14 @@ function MyApplet(metadata, orientation, panelHeight, instanceId) {
       },
       cloudiness: null,          // %
     }
-    
+
     this.forecasts = [];
 
     // a forecast template
-    // Same units as weather, 
+    // Same units as weather,
     // create an object like this then push into forecasts array
 
-    /*var aForecast = { 
+    /*var aForecast = {
       dateTime: null,             //Required
       main: {
         temp: null,
@@ -317,8 +317,8 @@ function MyApplet(metadata, orientation, panelHeight, instanceId) {
     }*/
 
     ///////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////  
-    
+    ///////////////////////////////////////////////////////////////////////
+
      // Units
      this.WeatherUnits = {
       CELSIUS: 'celsius',
@@ -378,12 +378,12 @@ MyApplet.prototype = {
                 this.log.Error("DarkSky: This usually indicates that API key is invalid.");
               }
               reject(null);
-            }            
+            }
           }
           else {  // No response
               this.log.Error("Error: No Response from API");
               reject(null);
-          }   
+          }
         });
     });
     return json;
@@ -581,13 +581,13 @@ MyApplet.prototype = {
     this._currentWeatherSunrise.text = msg;
   },
 
-  refreshWeather: async function() {  
+  refreshWeather: async function() {
     this.wipeCurrentData();
     this.wipeForecastData();
-    
+
     // Making sure location is in place
     try {
-      
+
       if (!this._manualLocation) {    // Autmatic location
         // Have to check every time to make sure location is the same
         let haveLocation = await this.locProvider.GetLocation();
@@ -607,7 +607,7 @@ MyApplet.prototype = {
           return;
         }
       }
-          
+
       let refreshResult;
       switch(this._dataService) {
         case DATA_SERVICE.DARK_SKY:
@@ -636,9 +636,9 @@ MyApplet.prototype = {
 
       if (await this.displayWeather() && await this.displayForecast()) {
         this.log.Print("Weather Information refreshed");
-      }    
+      }
     }
-    catch(e) { 
+    catch(e) {
       this.log.Error("Error while refreshing Weather info: " + e);
       this.lastUpdated = null;
       return;
@@ -667,7 +667,7 @@ MyApplet.prototype = {
         }
       }
 
-      // Displaying Location   
+      // Displaying Location
       let location = "";
       if (this.weather.location.city != null && this.weather.location.country != null) {
         location = this.weather.location.city + ", " + this.weather.location.country;
@@ -675,7 +675,7 @@ MyApplet.prototype = {
           location = this._locationLabelOverride;
         }
       }
-  
+
       this.set_applet_tooltip(location);
 
       // Weather Condition
@@ -722,11 +722,11 @@ MyApplet.prototype = {
       if (this.weather.main.humidity !=  null) {
         this._currentWeatherHumidity.text = Math.round(this.weather.main.humidity) + "%";
       }
-      
+
       // Wind
       let wind_direction = this.compassDirection(this.weather.wind.degree);
       this._currentWeatherWind.text = ((wind_direction != undefined) ? wind_direction + ' ' : '') + this.MPStoUserUnits(this.weather.wind.speed) + ' ' + _(this._windSpeedUnit);
-    
+
       // API Unique display
       switch (this._dataService) {
         case DATA_SERVICE.OPEN_WEATHER_MAP:
@@ -741,11 +741,11 @@ MyApplet.prototype = {
             this._currentWeatherApiUniqueCap.text = _("Feels like:");
           }
           break;
-        default: 
+        default:
           this._currentWeatherApiUnique.text = "";
           this._currentWeatherApiUniqueCap.text = "";
       }
-      
+
       // Pressure
       if (this.weather.main.pressure != null) {
         this._currentWeatherPressure.text = this.PressToUserUnits(this.weather.main.pressure) + ' ' + _(this._pressureUnit);
@@ -822,8 +822,8 @@ MyApplet.prototype = {
         else {
           dayName.setMilliseconds(dayName.getMilliseconds() + (this.weather.location.tzOffset * 1000));
           dayName = this.getDayName(dayName.getUTCDay());
-        }       
-        
+        }
+
         forecastUi.Day.text = dayName;
         forecastUi.Temperature.text = first_temperature + ' ' + '\u002F' + ' ' + second_temperature + ' ' + this.unitToUnicode();
         forecastUi.Summary.text = comment;
@@ -1202,7 +1202,7 @@ MyApplet.prototype = {
     let days = [_('Sunday'), _('Monday'), _('Tuesday'), _('Wednesday'), _('Thursday'), _('Friday'), _('Saturday')]
     return days[dayNum];
   },
-  
+
   compassDirection: function(deg) {
     let directions = [_('N'), _('NE'), _('E'), _('SE'), _('S'), _('SW'), _('W'), _('NW')]
     return directions[Math.round(deg / 45) % directions.length]

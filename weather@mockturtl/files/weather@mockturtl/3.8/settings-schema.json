@@ -17,7 +17,7 @@
   , "default": "OpenWeatherMap"
   , "description": "Data service"
   , "options":
-    { 
+    {
       "OpenWeatherMap (no key needed)": "OpenWeatherMap",
       "DarkSky": "DarkSky"
     }

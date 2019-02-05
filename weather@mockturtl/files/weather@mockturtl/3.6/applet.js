@@ -180,7 +180,7 @@ const WEATHER_CONV_ATM_IN_INHG = 33.421054e-3
 //////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////
 
-// 
+//
 //  If you get the values in these objects correctly with correct units
 //  from a new API, Everything will work as intended.
 //
@@ -228,7 +228,7 @@ var forecasts = [];
 // a forecast template
 // Same units as weather, create an object like this then push into forecasts array
 
-/*var aForecast = { 
+/*var aForecast = {
   dateTime: null,             //Required
   main: {
     temp: null,
@@ -505,14 +505,14 @@ MyApplet.prototype = {
     this.set_applet_icon_name("");
   },
 
-  refreshWeather: function refreshWeather(recurse) {  
+  refreshWeather: function refreshWeather(recurse) {
     // Adding resilience against bad user input
     if (this._location == undefined || this._location == "") {
       this.displayLabelError(_("No location provided"));
       return false;
     }
     switch(this._dataService) {
-      case DATA_SERVICE.OPEN_WEATHER_MAP: 
+      case DATA_SERVICE.OPEN_WEATHER_MAP:
         this.getOpenWeatherCurrentWeather();
         this.getOpenWeatherForecast();
         break;
@@ -544,7 +544,7 @@ MyApplet.prototype = {
       }
     }
 
-    // Displaying Location   
+    // Displaying Location
     let location = "";
     if (weather.location.city != null && weather.location.country != null) {
       location = weather.location.city + ", " + weather.location.country;
@@ -597,11 +597,11 @@ MyApplet.prototype = {
     if (weather.main.humidity !=  null) {
       this._currentWeatherHumidity.text = weather.main.humidity + "%";
     }
-    
+
     // Wind
     let wind_direction = this.compassDirection(weather.wind.degree);
     this._currentWeatherWind.text = ((wind_direction != undefined) ? wind_direction + ' ' : '') + this.MPStoUserUnits(weather.wind.speed) + ' ' + _(this._windSpeedUnit);
-   
+
     // API Unique display
     switch (this._dataService) {
       case DATA_SERVICE.OPEN_WEATHER_MAP:
@@ -610,11 +610,11 @@ MyApplet.prototype = {
           this._currentWeatherApiUniqueCap.text = _("Cloudiness:");
         }
         break;
-      default: 
+      default:
         this._currentWeatherApiUnique.text = "";
         this._currentWeatherApiUniqueCap.text = "";
     }
-    
+
     // Pressure
     if (weather.main.pressure != null) {
       this._currentWeatherPressure.text = this.PressToUserUnits(weather.main.pressure) + ' ' + _(this._pressureUnit);
@@ -682,7 +682,7 @@ MyApplet.prototype = {
       let dayName = forecastData.dateTime;
       dayName.setMilliseconds(dayName.getMilliseconds() + (weather.location.tzOffset * 1000));
       dayName = this.getDayName(dayName.getUTCDay());
-      
+
       forecastUi.Day.text = dayName;
       forecastUi.Temperature.text = first_temperature + ' ' + '\u002F' + ' ' + second_temperature + ' ' + this.unitToUnicode();
       forecastUi.Summary.text = comment;
@@ -1042,8 +1042,8 @@ MyApplet.prototype = {
   // Only have Mainloop Polling in one of the functions with API calls
   // because it will cause a exponential recursive loop otherwise
 
-  getOpenWeatherCurrentWeather: function() {  
-    let query = this.getOpenWeatherQueryString(SERVICE.OpenWeatherMap.QUERY_URL); 
+  getOpenWeatherCurrentWeather: function() {
+    let query = this.getOpenWeatherQueryString(SERVICE.OpenWeatherMap.QUERY_URL);
     if (query == "") {
       return false;
     }
@@ -1093,7 +1093,7 @@ MyApplet.prototype = {
       }
       return false;
     }
-    return true;      
+    return true;
   },
 
   parseOpenWeather: function(json) {
@@ -1123,11 +1123,11 @@ MyApplet.prototype = {
     if (json.weather[0]) {
       weather.condition.main = json.weather[0].main;
       weather.condition.description = json.weather[0].description;
-      weather.condition.icon = this.weatherIconSafely(json.weather[0].icon, this.resolveOpenWeatherIcon); 
+      weather.condition.icon = this.weatherIconSafely(json.weather[0].icon, this.resolveOpenWeatherIcon);
     }
     if (json.clouds) {
       weather.cloudiness = json.clouds.all;
-    }    
+    }
   },
 
   parseOpenWeatherForecast: function(json) {
@@ -1167,7 +1167,7 @@ MyApplet.prototype = {
             forecast.condition.main = day.weather[0].main;
             forecast.condition.description = day.weather[0].description;
             forecast.condition.icon = this.weatherIconSafely(day.weather[0].icon, this.resolveOpenWeatherIcon);
-        }          
+        }
       forecasts.push(forecast);
       }
   },
@@ -1208,7 +1208,7 @@ MyApplet.prototype = {
     }
 
     // if new number first digit is smaller, return that
-    if (parseInt(String(newID).substring(0, 1)) < parseInt(String(prevId).substring(0, 1))) { 
+    if (parseInt(String(newID).substring(0, 1)) < parseInt(String(prevId).substring(0, 1))) {
       return newID;
     }
     //if same category, return higher one
@@ -1237,9 +1237,9 @@ MyApplet.prototype = {
 
   resolveOpenWeatherIcon: function(iconId) {
     // https://openweathermap.org/weather-conditions
-        /* fallback icons are: weather-clear-night 
-        weather-clear weather-few-clouds-night weather-few-clouds 
-        weather-fog weather-overcast weather-severe-alert weather-showers 
+        /* fallback icons are: weather-clear-night
+        weather-clear weather-few-clouds-night weather-few-clouds
+        weather-fog weather-overcast weather-severe-alert weather-showers
         weather-showers-scattered weather-snow weather-storm */
     switch (iconId) {
       case "10d":/* rain day */
