@@ -1301,4 +1301,3 @@ function main(metadata, orientation, panelHeight, instanceId) {
   //log("v" + metadata.version + ", cinnamon " + Config.PACKAGE_VERSION)
   return new MyApplet(metadata, orientation, panelHeight, instanceId)
 }
-
