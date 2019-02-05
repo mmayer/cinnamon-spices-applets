@@ -574,6 +574,23 @@ MyApplet.prototype = {
       this._currentWeatherTemperature.text = temp + ' ' + this.unitToUnicode();
     }
 
+    // Sunset/Sunrise
+    // gettext can't see these inline
+    let sunriseText = "";
+    let sunsetText = "";
+    if (weather.sunrise != null && weather.sunset != null) {
+      if (this._showSunrise) {
+        sunriseText = _('Sunrise');
+        sunsetText = _('Sunset');
+        if (this._translateCondition) {
+          sunriseText = _(sunriseText);
+          sunsetText = _(sunsetText);
+        }
+        sunriseText = (sunriseText + ': ' + this.timeToUserUnits(weather.sunrise.toLocaleFormat('%H:%M')));
+        sunsetText = (sunsetText + ': ' + this.timeToUserUnits(weather.sunset.toLocaleFormat('%H:%M')));
+      }
+    }
+
     // Set Applet Label, even if the variables are empty
     let label = "";
     if (this._showCommentInPanel) {
@@ -625,23 +642,6 @@ MyApplet.prototype = {
     //this._currentWeatherLocation.url = tmp.length > 1 ? tmp[1] : tmp[0];
     this._currentWeatherLocation.label = _(location);
 
-    // Sunset/Sunrise
-    // gettext can't see these inline
-    let sunriseText = "";
-    let sunsetText = "";
-    if (weather.sunrise != null && weather.sunset != null) {
-      if (this._showSunrise) {
-        sunriseText = _('Sunrise');
-        sunsetText = _('Sunset');
-        if (this._translateCondition) {
-          sunriseText = _(sunriseText);
-          sunsetText = _(sunsetText);
-        }
-        sunriseText = (sunriseText + ': ' + this.timeToUserUnits(weather.sunrise.toLocaleFormat('%H:%M')));
-        sunsetText = (sunsetText + ': ' + this.timeToUserUnits(weather.sunset.toLocaleFormat('%H:%M')));
-      }
-    }
-    
     this._currentWeatherSunrise.text = sunriseText;
     this._currentWeatherSunset.text = sunsetText;
     //Reset weather object

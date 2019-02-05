@@ -699,6 +699,27 @@ MyApplet.prototype = {
         this.log.Debug("Temperature: " + this.weather.main.temperature + " Kelvin is converted to " + temp + ' ' + this.unitToUnicode());
       }
 
+      // Sunset/Sunrise
+      // gettext can't see these inline
+      let sunriseText = "";
+      let sunsetText = "";
+      if (this.weather.sunrise != null && this.weather.sunset != null) {
+        if (this._showSunrise) {
+          sunriseText = _('Sunrise');
+          sunsetText = _('Sunset');
+          if (this.weather.timeZone != null) {     //have TZ, en-GB returns time in the correct format
+              let sunrise = this.weather.sunrise.toLocaleString("en-GB", {timeZone: this.weather.timeZone, hour: "2-digit", minute: "2-digit"});
+              let sunset = this.weather.sunrise.toLocaleString("en-GB", {timeZone: this.weather.timeZone, hour: "2-digit", minute: "2-digit"});
+              sunriseText = (sunriseText + ': ' + this.timeToUserUnits(sunrise));
+              sunsetText = (sunsetText + ': ' + this.timeToUserUnits(sunset));
+          }
+          else {   // else We assume that System TZ and Location TZ is same, covers 95% of users
+            sunriseText = (sunriseText + ': ' + this.timeToUserUnits(this.weather.sunrise.toLocaleFormat('%H:%M')));
+            sunsetText = (sunsetText + ': ' + this.timeToUserUnits(this.weather.sunset.toLocaleFormat('%H:%M')));
+          }
+        }
+      }
+
       // Set Applet Label, even if the variables are empty
       let label = "";
       if (this._showCommentInPanel) {
@@ -764,27 +785,6 @@ MyApplet.prototype = {
           this._currentWeatherLocation.url = null;
       }
 
-      // Sunset/Sunrise
-      // gettext can't see these inline
-      let sunriseText = "";
-      let sunsetText = "";
-      if (this.weather.sunrise != null && this.weather.sunset != null) {
-        if (this._showSunrise) {
-          sunriseText = _('Sunrise');
-          sunsetText = _('Sunset');
-          if (this.weather.timeZone != null) {     //have TZ, en-GB returns time in the correct format
-              let sunrise = this.weather.sunrise.toLocaleString("en-GB", {timeZone: this.weather.timeZone, hour: "2-digit", minute: "2-digit"});
-              let sunset = this.weather.sunrise.toLocaleString("en-GB", {timeZone: this.weather.timeZone, hour: "2-digit", minute: "2-digit"});
-              sunriseText = (sunriseText + ': ' + this.timeToUserUnits(sunrise));
-              sunsetText = (sunsetText + ': ' + this.timeToUserUnits(sunset));
-          }
-          else {   // else We assume that System TZ and Location TZ is same, covers 95% of users   
-            sunriseText = (sunriseText + ': ' + this.timeToUserUnits(this.weather.sunrise.toLocaleFormat('%H:%M')));
-            sunsetText = (sunsetText + ': ' + this.timeToUserUnits(this.weather.sunset.toLocaleFormat('%H:%M')));
-          }         
-        }
-      }
-      
       this._currentWeatherSunrise.text = sunriseText;
       this._currentWeatherSunset.text = sunsetText;
       return true;
